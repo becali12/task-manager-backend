@@ -1,3 +1,4 @@
 task_manager_backend_venv
 .DS_Store
 .env
+__pycache__/
