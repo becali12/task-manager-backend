@@ -27,8 +27,9 @@ def init_db() -> bool:
         cur.execute('''
                 CREATE TABLE IF NOT EXISTS users (
                     id SERIAL PRIMARY KEY,
-                    name VARCHAR(100) NOT NULL,
-                    last_connected TIMESTAMP
+                    first_name VARCHAR(100) NOT NULL,
+                    last_name VARCHAR(100) NOT NULL,
+                    created_at BIGINT
                 );
             ''')
         # create the tasks table
@@ -39,8 +40,8 @@ def init_db() -> bool:
                     description TEXT,
                     priority INTEGER,
                     is_completed BOOLEAN DEFAULT FALSE,
-                    completed_date TIMESTAMP,
-                    due_date TIMESTAMP,
+                    completed_date BIGINT,
+                    due_date BIGINT,
                     user_id INTEGER,
                     FOREIGN KEY (user_id) REFERENCES users(id)
                 );
@@ -80,8 +81,8 @@ def insert_user(user : dict) -> bool:
         return False
 
     try:
-        query = 'INSERT INTO users (name, last_connected) VALUES (%s, %s);'
-        cur.execute(query, (user['name'], user['last_connected']))
+        query = 'INSERT INTO users (first_name, last_name, created_at) VALUES (%s, %s, %s);'
+        cur.execute(query, (user['firstName'], user['lastName'], user['createdAt']))
         conn.commit()
         print("Table updated successfully.")
         return True
